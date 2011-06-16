@@ -71,7 +71,7 @@ module ActiveAdmin
       end
     end
 
-    action_item :except => [:new, :show] do
+    action_item :except => [:new] do
       if controller.action_methods.include?('new')
         link_to(I18n.t('active_admin.new_model', :model => active_admin_config.resource_name), new_resource_path)
       end
