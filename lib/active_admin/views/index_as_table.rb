@@ -45,7 +45,7 @@ module ActiveAdmin
             else
               links += link_to ('reativar'), "activate_#{resource_path(resource)}", :method => :put, :confirm => I18n.t('active_admin.delete_confirmation'), :class => "member_link activate_link"
             end
-            links
+            links.html_safe
           end
         end
 
