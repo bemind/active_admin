@@ -37,6 +37,7 @@ module ActiveAdmin
 
               # Define any member actions
               member do
+                send(:put, :activate)
                 config.member_actions.each do |action|
                   # eg: get :comment
                   send(action.http_verb, action.name)

@@ -35,6 +35,17 @@ module ActiveAdmin
     include Scoping
     include Sidebars
 
+    def activate
+      object = resource
+    
+      respond_to do |wants|
+        if object.activate
+          wants.html { redirect_to(resources_url) }
+          wants.xml  { head :ok }
+        end
+      end
+    end
+    
     class << self
 
       # Reference to the Resource object which initialized
