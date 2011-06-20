@@ -41,8 +41,8 @@ module ActiveAdmin
     
       respond_to do |wants|
         if object.activate
+          set_flash_message!
           wants.html { redirect_to(collection_url) }
-          wants.xml  { head :ok }
         end
       end
     end
