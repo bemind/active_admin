@@ -43,7 +43,7 @@ module ActiveAdmin
               links += link_to I18n.t('active_admin.edit'), edit_resource_path(resource), :class => "member_link edit_link"
               links += link_to I18n.t('active_admin.delete'), resource_path(resource), :method => :delete, :confirm => I18n.t('active_admin.delete_confirmation'), :class => "member_link delete_link"
             else
-              links += link_to I18n.t('reativar'), activate_resource_path(resource), :method => :put, :confirm => I18n.t('active_admin.delete_confirmation'), :class => "member_link activate_link"
+              links += link_to I18n.t('reativar'), "activate_#{resource_path(resource)}", :method => :put, :confirm => I18n.t('active_admin.delete_confirmation'), :class => "member_link activate_link"
             end
             links
           end
