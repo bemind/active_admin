@@ -35,12 +35,13 @@ module ActiveAdmin
     include Scoping
     include Sidebars
 
+    custom_actions :resource => :activate
     def activate
       object = resource
     
       respond_to do |wants|
         if object.activate
-          wants.html { redirect_to(resources_url) }
+          wants.html { redirect_to(collection_url) }
           wants.xml  { head :ok }
         end
       end
