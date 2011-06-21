@@ -41,7 +41,7 @@ module ActiveAdmin
     
       respond_to do |wants|
         if object.activate
-          flash[:notice] = resource.class.model_name.human
+          flash[:notice] = "#{resource.class.model_name.human} ativado(a) com sucesso"
           wants.html { redirect_to(collection_url) }
         end
       end
