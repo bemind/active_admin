@@ -43,6 +43,9 @@ module ActiveAdmin
         if object.activate
           flash[:notice] = "#{resource.class.model_name.human} ativado(a) com sucesso"
           wants.html { redirect_to(collection_url) }
+        else
+          flash[:error] = "Problemas com o(a) #{resource.class.model_name.human}"
+          wants.html { redirect_to(collection_url) }
         end
       end
     end
