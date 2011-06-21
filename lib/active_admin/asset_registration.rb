@@ -4,7 +4,7 @@ module ActiveAdmin
     # Stylesheets
 
     def register_stylesheet(name)
-      stylesheets << name
+      stylesheets.insert 0, name
     end
 
     def stylesheets
