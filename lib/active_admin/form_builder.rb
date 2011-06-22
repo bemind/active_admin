@@ -10,12 +10,8 @@ module ActiveAdmin
       super
     end
 
-    def anchor_input(args)
-      #<label for="empresa_logo">Logo</label>
-      #<input id="empresa_logo" type="file" name="empresa[logo]">
-      content = "<label for=\"" + args.to_s + "\">" + args.to_s + "</label>"
-      content += "<input id=\"empresa_logo\" type=\"file\" name=\"empresa[logo]\">"
-      content += "<a name=" + args.to_s + " ></a>"
+    def anchor(arg)
+      content = "<a name=" + arg.to_s + " ></a>"
       form_buffers.last << content.html_safe
     end
 
