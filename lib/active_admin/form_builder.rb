@@ -11,7 +11,7 @@ module ActiveAdmin
     end
 
     def anchor_input
-      "TESTE"
+      form_buffers.last << "teste".html_safe
     end
 
     def inputs(*args, &block)
