@@ -10,6 +10,10 @@ module ActiveAdmin
       super
     end
 
+    def anchor_input
+      "TESTE"
+    end
+
     def inputs(*args, &block)
       # Store that we are creating inputs without a block
       @inputs_with_block = block_given? ? true : false
