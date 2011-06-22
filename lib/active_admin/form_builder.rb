@@ -10,7 +10,7 @@ module ActiveAdmin
       super
     end
 
-    def anchor_input
+    def anchor_input 
       form_buffers.last << "teste".html_safe
     end
 
