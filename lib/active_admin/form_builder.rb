@@ -10,8 +10,9 @@ module ActiveAdmin
       super
     end
 
-    def anchor_input 
-      form_buffers.last << "teste".html_safe
+    def anchor(arg)
+      content = "<a name=" + arg.to_s + " ></a>"
+      form_buffers.last << content.html_safe
     end
 
     def inputs(*args, &block)
