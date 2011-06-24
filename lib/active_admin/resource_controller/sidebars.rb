@@ -11,7 +11,7 @@ module ActiveAdmin
 
       module ClassMethods
         def sidebar(name, options = {}, &block)
-          self.sidebar_sections << ActiveAdmin::Sidebar::Section.new(name, options, &block)
+          self.sidebar_sections.insert(0, ActiveAdmin::Sidebar::Section.new(name, options, &block))
         end
 
         def clear_sidebar_sections!
