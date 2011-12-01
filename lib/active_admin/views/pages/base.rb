@@ -134,7 +134,8 @@ module ActiveAdmin
         # Renders the content for the footer
         def build_footer
           div :id => "footer" do
-            para "Powered by #{link_to("Active Admin", "http://www.activeadmin.info")} #{ActiveAdmin::VERSION}".html_safe
+            # para "Powered by #{link_to("Active Admin", "http://www.activeadmin.info")} #{ActiveAdmin::VERSION}".html_safe
+            para "".html_safe
           end
         end
 
