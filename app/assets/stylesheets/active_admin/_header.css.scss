@@ -1,37 +1,63 @@
-// ----------------------------------- Header 
-#header { 
+// ----------------------------------- Header
+#header {
   @include primary-gradient;
   @include shadow;
   @include text-shadow(#000);
+  height: 20px;
+  overflow: visible;
+  position: relative;
   padding: 9px $horizontal-page-margin;
   position: relative;
   z-index: 900;
 
-  h1 { 
-    display: inline; 
+  h1 {
+    display: inline-block;
     color: #cdcdcd;
-    margin-right: 20px; 
-    font-size: 1.3em; 
-    font-weight: normal; 
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 0px;
+    padding-top: 3px;
+    font-size: 1.3em;
+    font-weight: normal;
+
+    a {
+      text-decoration: none;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    img {
+      position: relative;
+      top: -2px;
+    }
   }
 
   a, a:link { color: #cdcdcd; }
 
+  .header-item {
+    float: left;
+    top: 2px;
+    position: relative;
+    height: 20px
+  }
+
   ul#tabs {
-    margin: 0; 
-    padding: 0; 
-    display: inline; 
+    display: inline-block;
     height: 100%;
+    margin: 0;
+    padding: 0;
 
-    & > li { 
-      display: inline-block; 
-      margin-right: 4px; 
-      font-size: 1.0em; 
-      position: relative; 
+    & > li {
+      display: inline-block;
+      margin-right: 4px;
+      font-size: 1.0em;
+      position: relative;
 
-      a { 
-        text-decoration: none; 
-        padding: 6px 10px 4px 10px; 
+      a {
+        text-decoration: none;
+        padding: 6px 10px 4px 10px;
         position: relative;
         @include rounded(10px);
       }
@@ -41,50 +67,50 @@
         color: #fff;
       }
 
-      &.has_nested > a { 
-        background: url('/images/active_admin/nested_menu_arrow.gif') no-repeat 89% 50%; 
-        padding-right: 20px; 
+      &.has_nested > a {
+        background: url(active_admin_image_path('nested_menu_arrow.gif')) no-repeat 89% 50%;
+        padding-right: 20px;
+        z-index: 1050;
       }
 
-      &.has_nested.current > a { 
-        background: $current-menu-item-background url('/images/active_admin/nested_menu_arrow_dark.gif') no-repeat 89% 50%; 
-        padding-right: 20px; 
+      &.has_nested.current > a {
+        background: $current-menu-item-background url(active_admin_image_path('nested_menu_arrow_dark.gif')) no-repeat 89% 50%;
+        padding-right: 20px;
       }
 
-      &:hover > a { 
+      &:hover > a {
         background: $hover-menu-item-background;
         color: #fff;
       }
 
-      &.has_nested:hover > a { 
+      &.has_nested:hover > a {
         @include rounded-top(10px);
-        z-index: 800;
         border-bottom: 5px solid $hover-menu-item-background;
-        background: $hover-menu-item-background url('/images/active_admin/nested_menu_arrow_dark.gif') no-repeat 89% 50%;
+        background: $hover-menu-item-background url(active_admin_image_path('nested_menu_arrow_dark.gif')) no-repeat 89% 50%;
       }
 
 
       /* Hover on li, display the ul */
       &:hover ul { display: block;}
       /* Drop down menus */
-      ul { 
+      ul {
         background: $hover-menu-item-background;
         @include rounded-all(0,10px,10px,10px);
         @include shadow(0, 1px, 3px, #444);
-        position: absolute; 
-        width: 175px; 
-        margin-top: 4px;
+        position: absolute;
+        width: 175px;
+        margin-top: 5px;
         float: left;
-        display: none; 
+        display: none;
         padding: 3px 0px 5px 0;
         list-style: none;
-		left: 0;
+        z-index: 1010;
 
-        li { 
-          margin: 0px; 
-          a { 
+        li {
+          margin: 0px;
+          a {
             background: none;
-            display: block; 
+            display: block;
             &:hover { color: #fff; background: none; }
           }
 
@@ -97,9 +123,12 @@
 
   }
 
-  #utility_nav { 
-    position: absolute; right: 25px; top: 10px; 
+  #utility_nav {
     color: #aaa;
+    float: right;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
     span, a { margin-left: 10px; }
 
     a { text-decoration: none; }

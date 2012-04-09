@@ -79,8 +79,9 @@ form {
     border: 1px solid #c9d0d6;
     @include rounded;
     font-size: 0.95em;
+    @include sans-family;
     outline: none;
-    padding: 8px 10px 7px;
+    padding: 8px $text-input-horizontal-padding 7px;
     
     &:focus {
       border: 1px solid #99a2aa;
@@ -135,16 +136,15 @@ form {
       }
     }
 
-    &.hidden { display: none; }
-
     /* Errors */
     p.inline-errors { 
       text-transform:capitalize;
-      color:#cc0000; 
-      margin:0.5em 0 0 20%; 
+      color: $error-color;
+      font-weight: bold;
+      margin:0.3em 0 0 20%; 
     }
     ul.errors { 
-      color:#cc0000; 
+      color: $error-color;
       margin:0.5em 0 0 20%; 
       list-style:square; 
       li { padding:0; border:none; display:list-item; }
@@ -152,34 +152,112 @@ form {
 
     &.error {
       input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], textarea {
-        border: 1px solid #cc0000;
+        border: 1px solid $error-color;
       }
     }
   }
 
   /* Buttons */
-  input[type=submit] { @include dark-button; }
+  
+  input[type=submit] {
+    @include dark-button;
+    cursor: pointer;
+    
+  }
+  
+  .buttons { 
+    margin-top: 15px; 
+    input[type=submit] { margin-right: 10px; }
+  }
+  
   fieldset.buttons li { 
     float:left; 
-    padding-right:0.5em;
-    padding-top: 0;
-    &.cancel { margin-left: 0.3em; padding: 5px; a { @include light-button; @include icon(#777, 9px);} }
+    padding: 0;
+
+    &.cancel {
+      a {
+        @include light-button; @include icon(#777, 9px);
+      }
+    }
   }
 
 }
 
-/* Sidebar forms */
+// -------------------------------------- Sidebar Forms 
 
-#sidebar { 
+$sidebar-inner-content-width: $sidebar-width - ($section-padding * 2);
+
+.sidebar_section { 
+
+  label {
+    display: block;
+    text-transform: uppercase;
+    color: $section-header-text-color;
+    font-size: 0.9em;
+    font-weight: bold;
+  }
+
+  select {
+    width: $sidebar-inner-content-width;
+  }
+  
+  input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], textarea {
+    width: $sidebar-inner-content-width - ($text-input-horizontal-padding * 2);
+  }
+
+}
+
+// -------------------------------------- Filter Forms
+
+$filter-field-seperator-width: 12px;
+
+$side-by-side-filter-input-width: ($sidebar-inner-content-width / 2) - ($text-input-horizontal-padding * 2) - $filter-field-seperator-width;
+$side-by-side-filter-select-width: ($sidebar-inner-content-width / 2) - $filter-field-seperator-width;
+
+$date-range-filter-input-right-padding: 27px;
+$date-range-filter-input-horizontal-padding: $date-range-filter-input-right-padding + $text-input-horizontal-padding;
+$date-range-filter-input-width: ($sidebar-inner-content-width / 2) - $filter-field-seperator-width - $date-range-filter-input-horizontal-padding;
+
+form.filter_form {
   .filter_form_field {
+    margin-bottom: 10px; 
+    clear: both;
     
-    &.filter_select select {
-      width: 239px;
+    &.filter_numeric {
+      input[type=text] {
+        margin-left: $filter-field-seperator-width + 4;
+        width: $side-by-side-filter-input-width;
+      }
+      select {
+        width: $side-by-side-filter-select-width;
+      }
     }
     
-    &.filter_string {
-      width: 286px;
+    &.filter_check_boxes {
+      label { margin-bottom: 3px; }
+      .check_boxes_wrapper label { 
+        font-weight: normal; 
+        margin-bottom: 3px;
+        text-transform: none;
+        font-size: 1.0em;
+        input { vertical-align: baseline; }
+      }
+    }
+
+    &.filter_date_range {
+      .seperator {
+        display: inline-block;
+        text-align: center;
+        width: $filter-field-seperator-width;
+      }
+    
+      input[type=text] {
+        background: #fff url(active_admin_image_path('datepicker/datepicker-input-icon.png')) no-repeat 100% 7px;
+        padding-right: $date-range-filter-input-right-padding;
+        width: $date-range-filter-input-width;
+      }
     }
   }
-
+  a.clear_filters_btn { @include light-button; }
 }
+

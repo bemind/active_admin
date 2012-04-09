@@ -2,7 +2,6 @@ module ActiveAdmin
   module Generators
     class DeviseGenerator < Rails::Generators::NamedBase
       desc "Creates an admin user and uses Devise for authentication"
-
       argument :name, :type => :string, :default => "AdminUser"
 
       class_option  :registerable, :type => :boolean, :default => false,
@@ -31,7 +30,7 @@ module ActiveAdmin
 
       def set_namespace_for_path
         routes_file = File.join(destination_root, "config", "routes.rb")
-        gsub_file routes_file, /devise_for :#{table_name}/, "devise_for :#{table_name}, ActiveAdmin::Devise.config"
+        gsub_file routes_file, /devise_for :#{plural_table_name}/, "devise_for :#{plural_table_name}, ActiveAdmin::Devise.config"
       end
 
       def add_default_user_to_migration

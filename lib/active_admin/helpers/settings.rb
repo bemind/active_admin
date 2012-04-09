@@ -10,27 +10,24 @@ module ActiveAdmin
   #     include ActiveAdmin::Settings
   #
   #     setting :site_title, "Default Site Title"
+  #   end
   #
-  #     def initialize
-  #       # You must call this method to initialize the defaults
-  #       initialize_defaults!
-  #     end
+  #   conf = Configuration.new
+  #   conf.site_title #=> "Default Site Title"
+  #   conf.site_title = "Override Default"
+  #   conf.site_title #=> "Override Default"
   #
   module Settings
     extend ActiveSupport::Concern
 
-    module InstanceMethods
+    def read_default_setting(name)
+      default_settings[name]
+    end
 
-      def default_settings
-        self.class.default_settings
-      end
+    private
 
-      def initialize_defaults!
-        default_settings.each do |key, value|
-          send("#{key}=".to_sym, value)
-        end
-      end
-
+    def default_settings
+      self.class.default_settings
     end
 
     module ClassMethods
@@ -38,6 +35,26 @@ module ActiveAdmin
       def setting(name, default)
         default_settings[name] = default
         attr_accessor(name)
+
+        # Create an accessor that grabs from the defaults
+        # if @name has not been set yet
+        class_eval <<-EOC, __FILE__, __LINE__ + 1
+          def #{name}
+            if instance_variable_defined? :@#{name}
+              @#{name}
+            else
+              read_default_setting(:#{name})
+            end
+          end
+        EOC
+      end
+
+      def deprecated_setting(name, default, message = nil)
+        message = message || "The #{name} setting is deprecated and will be removed."
+        setting(name, default)
+
+        ActiveAdmin::Deprecation.deprecate self, name, message
+        ActiveAdmin::Deprecation.deprecate self, :"#{name}=", message
       end
 
       def default_settings

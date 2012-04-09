@@ -1,7 +1,10 @@
 require 'spec_helper' 
+require File.expand_path('config_shared_examples', File.dirname(__FILE__))
 
 module ActiveAdmin
   describe Resource do
+
+    it_should_behave_like "ActiveAdmin::Config"
 
     before { load_defaults! }
 
@@ -12,6 +15,8 @@ module ActiveAdmin
       @config ||= Resource.new(namespace, Category, options)
     end
 
+    it { respond_to :resource_class }
+
     describe "#resource_table_name" do
       it "should return the resource's table name" do
         config.resource_table_name.should == '"categories"'
@@ -20,12 +25,6 @@ module ActiveAdmin
         it "should return the resource's table name" do
           config(:as => "My Category").resource_table_name.should == '"categories"'
         end
-      end
-    end
-
-    describe "namespace" do
-      it "should return the namespace" do
-        config.namespace.should == namespace
       end
     end
 
@@ -106,7 +105,6 @@ module ActiveAdmin
     end
 
     describe "route names" do
-      let(:config){ application.register Category }
       it "should return the route prefix" do
         config.route_prefix.should == "admin"
       end
@@ -120,17 +118,14 @@ module ActiveAdmin
           config.route_prefix.should == nil
         end
       end
-    end
 
-    describe "page configs" do
-      context "when initialized" do
-        it "should be empty" do
-          config.page_configs.should == {}
+      context "when registering a plural resource" do
+        class ::News; def self.has_many(*); end end
+
+        let(:config){ application.register News }
+        it "should return the plurali route with _index" do
+          config.route_collection_path.should == :admin_news_index_path
         end
-      end
-      it "should be set-able" do
-        config.page_configs[:index] = "hello world"
-        config.page_configs[:index].should == "hello world"
       end
     end
 
@@ -202,20 +197,27 @@ module ActiveAdmin
 
 
     describe "sort order" do
-      subject { resource_config.sort_order }
 
-      context "by default" do
-        let(:resource_config) { config }
-
-        it { should == application.default_sort_order }
+      context "when resource class responds to primary_key" do
+        it "should sort by primary key desc by default" do
+          MockResource.should_receive(:primary_key).and_return("pk")
+          config = Resource.new(namespace, MockResource)
+          config.sort_order.should == "pk_desc"
+        end
       end
 
-      context "when default_sort_order is set" do
-        let(:sort_order)      { "name_desc"                      }
-        let(:resource_config) { config :sort_order => sort_order }
-
-        it { should == sort_order }
+      context "when resource class does not respond to primary_key" do
+        it "should default to id" do
+          config = Resource.new(namespace, MockResource)
+          config.sort_order.should == "id_desc"
+        end
       end
+
+      it "should be set-able" do
+        config.sort_order = "task_id_desc"
+        config.sort_order.should == "task_id_desc"
+      end
+
     end
 
     describe "adding a scope" do
