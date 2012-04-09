@@ -41,12 +41,11 @@ module ActiveAdmin
                   # eg: get :comment
                   send(action.http_verb, action.name)
                 end
-
-                # Define any collection actions
-                collection do
-                  config.collection_actions.each do |action|
-                    send(action.http_verb, action.name)
-                  end
+              end
+              # Define any collection actions
+              collection do
+                config.collection_actions.each do |action|
+                  send(action.http_verb, action.name)
                 end
               end
             end
