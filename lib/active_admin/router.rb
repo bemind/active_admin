@@ -33,15 +33,13 @@ module ActiveAdmin
 
           # Define the block the will get eval'd within the namespace
           route_definition_block = Proc.new do
-            case config
-            when Resource
-              resources config.underscored_resource_name.pluralize do
-                # Define any member actions
-                member do
-                  config.member_actions.each do |action|
-                    # eg: get :comment
-                    send(action.http_verb, action.name)
-                  end
+            resources config.underscored_resource_name.pluralize do
+              # Define any member actions
+              member do
+                send(:put, :activate)
+                config.member_actions.each do |action|
+                  # eg: get :comment
+                  send(action.http_verb, action.name)
                 end
 
                 # Define any collection actions
@@ -51,13 +49,6 @@ module ActiveAdmin
                   end
                 end
               end
-            when Page
-              match "/#{config.underscored_resource_name}" => "#{config.underscored_resource_name}#index"
-              config.page_actions.each do |action|
-                match "/#{config.underscored_resource_name}/#{action.name}" => "#{config.underscored_resource_name}##{action.name}", :via => action.http_verb
-              end
-            else
-              raise "Unsupported config class: #{config.class}"
             end
           end
 
